@@ -6,12 +6,15 @@ xk = 1;
 for i =1:length(t)-1
     [~,~,ncp] = fbncp(xk_2,xk_1,xk,t(i+1),t(i));
     part_ncp = partial_ncp(xk_2,xk_1,xk,t(i+1),t(i));
-    x_k = - ncp / part_ncp;
+    x_k =  - ncp / part_ncp;
+    lambda_k=Newton_line_search(x_k,xk_2,xk_1,xk,t(i+1),t(i));
+    if xk - lambda_k*x_k > xk
+        x_k = grad_step(xk_2,xk_1,xk,t(i+1),t(i));
+        lambda_k=grad_line_search(x_k,xk_2,xk_1,xk,t(i+1),t(i));
+    end
+%     lambda_k=line_search(x_k,xk_2,xk_1,xk,t(i+1),t(i));
     xk_2 = xk_1;
     xk_1 = xk;
-    if x_k < 0
-        x_k = abs(x_k);
-    end
-    xk = xk - 0.618*x_k
+    xk = xk - lambda_k*x_k
 end
     

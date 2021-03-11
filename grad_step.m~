@@ -1,0 +1,10 @@
+function x_k = grad_step
+t = [0,0.02,0.04,0.06,0.08,0.1,0.12,0.14,0.16,0.18,0.19,0.195];
+xk_2 = 1;
+xk_1 = 1;
+xk = 1;
+[~,~,ncp] = fbncp(xk_2,xk_1,xk,t1,t2);
+part_ncp = partial_ncp(xk_2,xk_1,xk,t1,t2);
+x_k =  - ncp*part_ncp;
+end
+    
